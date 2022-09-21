@@ -13,8 +13,8 @@
 
     <v-spacer></v-spacer>
 
-    <v-btn text @click="$emit('modalLogin')">
-      <span class="mr-2">Entrar</span>
+    <v-btn text @click="$emit('modalLogin', loggedUser)">
+      <span class="mr-2">{{ loggedUser === false ? "Entrar" : "Sair" }}</span>
       <v-icon>mdi-login</v-icon>
     </v-btn>
   </v-app-bar>
@@ -27,6 +27,13 @@ export default Vue.extend({
   name: "HeaderMain",
 
   data: () => ({}),
+  computed: {
+    loggedUser: {
+      get(): boolean {
+        return this.$store.getters.loggedUser;
+      },
+    },
+  },
   methods: {},
 });
 </script>

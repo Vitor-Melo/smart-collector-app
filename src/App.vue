@@ -1,10 +1,10 @@
 <template>
   <v-app>
-    <HeaderMain @modalLogin="getModal()" />
+    <HeaderMain @modalLogin="getModal" />
     <FormLogin
       :dialog="showModal"
       @closeModal="closeModal()"
-      @saveModal="saveModal()"
+      @saveModal="saveModal"
     />
     <v-main>
       <router-view />
@@ -16,7 +16,7 @@
 import Vue from "vue";
 import HeaderMain from "./components/HeaderMain.vue";
 import FormLogin from "./components/FormLogin.vue";
-import axios from "axios";
+import { Login } from "./http/auth.http";
 
 export default Vue.extend({
   name: "App",
@@ -29,32 +29,26 @@ export default Vue.extend({
     showModal: false,
   }),
   methods: {
-    getModal() {
+    getModal(value: any) {
+      if (value) {
+        this.$store.dispatch("logOut");
+        return;
+      }
+
       this.showModal = true;
     },
     closeModal() {
       this.showModal = false;
     },
-    saveModal() {
-      axios.defaults.withCredentials = true;
-
-      axios
-        .get("http://localhost/sanctum/csrf-cookie")
-        .then((response) => {
-          axios
-            .post("http://localhost/login", {
-              email: "admin@admin.com",
-              password: "admin",
-            })
-            .then((response) => {
-              axios
-                .get("http://localhost/me")
-                .then((re) => console.log(re))
-                .catch((re) => console.log(re));
-            })
-            .catch((resp) => console.log(resp));
+    saveModal(login: Login) {
+      this.$store
+        .dispatch("login", login)
+        .then(() => {
+          this.$toast.success("Login efetuado com sucesso!");
         })
-        .catch((resp) => console.log(resp));
+        .catch(() => {
+          this.$toast.error("Email/Senha incorreto!");
+        });
       this.showModal = false;
     },
   },

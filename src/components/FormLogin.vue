@@ -8,21 +8,16 @@
         <v-card-text>
           <v-container>
             <v-row>
-              <v-col cols="12" sm="6" md="4">
-                <v-text-field label="Primeiro Nome*" required></v-text-field>
-              </v-col>
-              <v-col cols="12" sm="6" md="4">
+              <v-col cols="12">
                 <v-text-field
-                  label="Ultimo nome*"
-                  hint="example of persistent helper text"
+                  v-model="email"
+                  label="Email*"
                   required
                 ></v-text-field>
               </v-col>
               <v-col cols="12">
-                <v-text-field label="Email*" required></v-text-field>
-              </v-col>
-              <v-col cols="12">
                 <v-text-field
+                  v-model="password"
                   label="Senha*"
                   type="password"
                   required
@@ -36,7 +31,16 @@
           <v-btn color="blue darken-1" text @click="$emit('closeModal')">
             Cancelar
           </v-btn>
-          <v-btn color="blue darken-1" text @click="$emit('saveModal')">
+          <v-btn
+            color="blue darken-1"
+            text
+            @click="
+              $emit('saveModal', {
+                email,
+                password,
+              })
+            "
+          >
             Entrar
           </v-btn>
         </v-card-actions>
@@ -57,6 +61,9 @@ export default Vue.extend({
       default: false,
     },
   },
-  data: () => ({}),
+  data: () => ({
+    email: null,
+    password: null,
+  }),
 });
 </script>
