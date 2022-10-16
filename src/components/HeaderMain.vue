@@ -13,6 +13,11 @@
 
     <v-spacer></v-spacer>
 
+    <v-btn text v-if="!loggedUser" @click="$emit('modalRegister')">
+      <span class="mr-2">Registre-se</span>
+      <v-icon>mdi-account-plus-outline</v-icon>
+    </v-btn>
+    |
     <v-btn text @click="$emit('modalLogin', loggedUser)">
       <span class="mr-2">{{ loggedUser === false ? "Entrar" : "Sair" }}</span>
       <v-icon>mdi-login</v-icon>

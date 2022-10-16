@@ -1,4 +1,4 @@
-import { Login, loginUser, logOutUser } from "@/http/auth.http";
+import { Login, loginUser, logOutUser, registerUser } from "@/http/auth.http";
 import { ActionTree } from "vuex";
 import RootState from "../types";
 import { AuthencationMutations } from "./mutations";
@@ -23,5 +23,8 @@ export const actions: ActionTree<AuthenticationState, RootState> = {
       commit(AuthencationMutations.SET_LOGGED_USER, false);
       commit(AuthencationMutations.SET_USER, null);
     });
+  },
+  async registerUser({ commit }, register: any): Promise<any> {
+    return registerUser(register);
   },
 };

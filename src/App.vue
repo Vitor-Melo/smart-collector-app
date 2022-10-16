@@ -1,10 +1,15 @@
 <template>
   <v-app>
-    <HeaderMain @modalLogin="getModal" />
+    <HeaderMain @modalLogin="getModal" @modalRegister="getModalRegister" />
     <FormLogin
       :dialog="showModal"
       @closeModal="closeModal()"
       @saveModal="saveModal"
+    />
+    <FormRegister
+      :dialog="showModalRegister"
+      @closeModalRegister="closeModalRegister()"
+      @saveModalRegister="saveModalRegister"
     />
     <v-main>
       <router-view />
@@ -16,7 +21,8 @@
 import Vue from "vue";
 import HeaderMain from "./components/HeaderMain.vue";
 import FormLogin from "./components/FormLogin.vue";
-import { Login } from "./http/auth.http";
+import FormRegister from "./components/FormRegister.vue";
+import { Login, registerUser } from "./http/auth.http";
 
 export default Vue.extend({
   name: "App",
@@ -24,9 +30,11 @@ export default Vue.extend({
   components: {
     HeaderMain,
     FormLogin,
+    FormRegister,
   },
   data: () => ({
     showModal: false,
+    showModalRegister: false,
   }),
   methods: {
     getModal(value: any) {
@@ -50,6 +58,23 @@ export default Vue.extend({
           this.$toast.error("Email/Senha incorreto!");
         });
       this.showModal = false;
+    },
+    getModalRegister(value: any) {
+      this.showModalRegister = true;
+    },
+    closeModalRegister() {
+      this.showModalRegister = false;
+    },
+    saveModalRegister(register: any) {
+      this.$store
+        .dispatch("registerUser", register)
+        .then(() => {
+          this.$toast.success("Cadastro efetuado com sucesso!");
+        })
+        .catch(() => {
+          this.$toast.error("Não foi possível efetuar o cadastro");
+        });
+      this.showModalRegister = false;
     },
   },
 });

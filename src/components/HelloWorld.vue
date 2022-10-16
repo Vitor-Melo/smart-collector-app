@@ -2,8 +2,9 @@
   <v-container>
     <v-row class="text-center">
       <v-col>
-        <h1 class="display-2 font-weight-bold mb-3">
-          <block-widgets v-if="loggedUser"></block-widgets>
+        <h1 class="display-2 font-weight-bold mb-3 primary--text">
+          <container-main v-if="loggedUser"></container-main>
+          {{ !loggedUser ? "Bem vindo ao Smart Collector" : "" }}
         </h1>
       </v-col>
     </v-row>
@@ -12,13 +13,13 @@
 
 <script lang="ts">
 import Vue from "vue";
-import BlockWidgets from "./BlockWidgets.vue";
+import ContainerMain from "./ContainerMain.vue";
 
 export default Vue.extend({
   name: "HelloWorld",
 
   components: {
-    BlockWidgets,
+    ContainerMain,
   },
   computed: {
     loggedUser: {

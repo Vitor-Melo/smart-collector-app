@@ -16,3 +16,7 @@ export async function loginUser(login: Login): Promise<any> {
 export async function logOutUser(): Promise<any> {
   return await axios.get("/logout");
 }
+
+export async function registerUser(register: any): Promise<any> {
+  return await axios.post("/register", register);
+}
